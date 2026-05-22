@@ -38,3 +38,8 @@ def winner(board: Board) -> int | None:
 def is_draw(board: Board) -> bool:
     """Return whether the board is full without a winner."""
     return winner(board) is None and not legal_moves(board)
+
+
+def is_game_over(board: Board) -> bool:
+    """Return whether the game has ended."""
+    return winner(board) is not None or is_draw(board)

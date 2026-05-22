@@ -1,4 +1,4 @@
-from tictactoe_ai.game import EMPTY, O, X, is_draw, legal_moves, winner
+from tictactoe_ai.game import EMPTY, O, X, is_draw, is_game_over, legal_moves, winner
 
 
 def test_legal_moves_returns_all_cells_for_empty_board() -> None:
@@ -149,3 +149,51 @@ def test_is_draw_returns_false_when_moves_remain() -> None:
     )
 
     assert not is_draw(board)
+
+
+def test_is_game_over_returns_true_when_board_has_winner() -> None:
+    board = (
+        O,
+        X,
+        EMPTY,
+        O,
+        X,
+        EMPTY,
+        O,
+        EMPTY,
+        X,
+    )
+
+    assert is_game_over(board)
+
+
+def test_is_game_over_returns_true_when_board_is_draw() -> None:
+    board = (
+        X,
+        O,
+        X,
+        X,
+        O,
+        O,
+        O,
+        X,
+        X,
+    )
+
+    assert is_game_over(board)
+
+
+def test_is_game_over_returns_false_when_game_continues() -> None:
+    board = (
+        X,
+        O,
+        X,
+        EMPTY,
+        O,
+        O,
+        O,
+        X,
+        X,
+    )
+
+    assert not is_game_over(board)
