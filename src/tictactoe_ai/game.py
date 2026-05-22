@@ -16,6 +16,7 @@ class GameState:
     board: Board = INITIAL_BOARD
     current_player: int = X
 
+
 CELL_SYMBOLS = {
     EMPTY: ".",
     X: "X",
@@ -42,6 +43,19 @@ def legal_moves(board: Board) -> tuple[int, ...]:
 def reset_game() -> GameState:
     """Return a fresh initial game state."""
     return GameState()
+
+
+def step_game(state: GameState, move: int) -> GameState:
+    """Return the next game state after the current player moves."""
+    if is_game_over(state.board):
+        raise ValueError("game is over")
+
+    board = make_move(state.board, move, state.current_player)
+    current_player = state.current_player
+    if not is_game_over(board):
+        current_player = next_player(state.current_player)
+
+    return GameState(board=board, current_player=current_player)
 
 
 def make_move(board: Board, move: int, player: int) -> Board:

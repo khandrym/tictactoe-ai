@@ -2,6 +2,7 @@ import pytest
 
 from tictactoe_ai.game import (
     EMPTY,
+    GameState,
     INITIAL_BOARD,
     O,
     X,
@@ -12,6 +13,7 @@ from tictactoe_ai.game import (
     next_player,
     render_board,
     reset_game,
+    step_game,
     winner,
 )
 
@@ -59,6 +61,86 @@ def test_reset_game_returns_initial_state() -> None:
 
     assert state.board == INITIAL_BOARD
     assert state.current_player == X
+
+
+def test_step_game_places_current_player_mark_and_switches_player() -> None:
+    state = reset_game()
+
+    next_state = step_game(state, 4)
+
+    assert next_state.board == (
+        EMPTY,
+        EMPTY,
+        EMPTY,
+        EMPTY,
+        X,
+        EMPTY,
+        EMPTY,
+        EMPTY,
+        EMPTY,
+    )
+    assert next_state.current_player == O
+
+
+def test_step_game_uses_state_current_player() -> None:
+    state = GameState(current_player=O)
+
+    next_state = step_game(state, 0)
+
+    assert next_state.board == (
+        O,
+        EMPTY,
+        EMPTY,
+        EMPTY,
+        EMPTY,
+        EMPTY,
+        EMPTY,
+        EMPTY,
+        EMPTY,
+    )
+    assert next_state.current_player == X
+
+
+def test_step_game_keeps_current_player_after_winning_move() -> None:
+    state = GameState(
+        board=(
+            X,
+            X,
+            EMPTY,
+            O,
+            O,
+            EMPTY,
+            EMPTY,
+            EMPTY,
+            EMPTY,
+        ),
+        current_player=X,
+    )
+
+    next_state = step_game(state, 2)
+
+    assert winner(next_state.board) == X
+    assert next_state.current_player == X
+
+
+def test_step_game_rejects_move_after_game_over() -> None:
+    state = GameState(
+        board=(
+            X,
+            X,
+            X,
+            O,
+            O,
+            EMPTY,
+            EMPTY,
+            EMPTY,
+            EMPTY,
+        ),
+        current_player=O,
+    )
+
+    with pytest.raises(ValueError, match="game is over"):
+        step_game(state, 5)
 
 
 def test_make_move_returns_board_with_player_mark() -> None:
