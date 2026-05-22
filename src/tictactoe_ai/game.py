@@ -8,6 +8,12 @@ Board = tuple[int, ...]
 
 INITIAL_BOARD: Board = (EMPTY,) * 9
 
+CELL_SYMBOLS = {
+    EMPTY: ".",
+    X: "X",
+    O: "O",
+}
+
 WIN_LINES: tuple[tuple[int, int, int], ...] = (
     (0, 1, 2),
     (3, 4, 5),
@@ -50,6 +56,19 @@ def next_player(player: int) -> int:
         return X
 
     raise ValueError("player must be X or O")
+
+
+def render_board(board: Board) -> str:
+    """Return a compact text representation of the board."""
+    rows = []
+    for start in range(0, len(board), 3):
+        try:
+            row = " ".join(CELL_SYMBOLS[cell] for cell in board[start : start + 3])
+        except KeyError as error:
+            raise ValueError("board contains an invalid cell") from error
+        rows.append(row)
+
+    return "\n".join(rows)
 
 
 def winner(board: Board) -> int | None:

@@ -9,6 +9,7 @@ from tictactoe_ai.game import (
     legal_moves,
     make_move,
     next_player,
+    render_board,
     winner,
 )
 
@@ -107,6 +108,39 @@ def test_next_player_returns_x_after_o() -> None:
 def test_next_player_rejects_invalid_player() -> None:
     with pytest.raises(ValueError, match="X or O"):
         next_player(EMPTY)
+
+
+def test_render_board_returns_text_grid() -> None:
+    board = (
+        X,
+        EMPTY,
+        O,
+        EMPTY,
+        X,
+        EMPTY,
+        O,
+        EMPTY,
+        X,
+    )
+
+    assert render_board(board) == "X . O\n. X .\nO . X"
+
+
+def test_render_board_rejects_invalid_cell() -> None:
+    board = (
+        X,
+        EMPTY,
+        O,
+        EMPTY,
+        2,
+        EMPTY,
+        O,
+        EMPTY,
+        X,
+    )
+
+    with pytest.raises(ValueError, match="invalid cell"):
+        render_board(board)
 
 
 def test_winner_returns_x_for_completed_row() -> None:
