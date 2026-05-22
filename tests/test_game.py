@@ -5,7 +5,12 @@ from tictactoe_ai.game import (
     GameState,
     INITIAL_BOARD,
     O,
+    RESULT_DRAW,
+    RESULT_ONGOING,
+    RESULT_O_WIN,
+    RESULT_X_WIN,
     X,
+    game_result,
     is_draw,
     is_game_over,
     legal_moves,
@@ -392,3 +397,67 @@ def test_is_game_over_returns_false_when_game_continues() -> None:
     )
 
     assert not is_game_over(board)
+
+
+def test_game_result_returns_x_win() -> None:
+    board = (
+        X,
+        X,
+        X,
+        O,
+        O,
+        EMPTY,
+        EMPTY,
+        EMPTY,
+        EMPTY,
+    )
+
+    assert game_result(board) == RESULT_X_WIN
+
+
+def test_game_result_returns_o_win() -> None:
+    board = (
+        O,
+        X,
+        EMPTY,
+        O,
+        X,
+        EMPTY,
+        O,
+        EMPTY,
+        X,
+    )
+
+    assert game_result(board) == RESULT_O_WIN
+
+
+def test_game_result_returns_draw() -> None:
+    board = (
+        X,
+        O,
+        X,
+        X,
+        O,
+        O,
+        O,
+        X,
+        X,
+    )
+
+    assert game_result(board) == RESULT_DRAW
+
+
+def test_game_result_returns_ongoing() -> None:
+    board = (
+        X,
+        O,
+        X,
+        EMPTY,
+        O,
+        O,
+        O,
+        X,
+        X,
+    )
+
+    assert game_result(board) == RESULT_ONGOING

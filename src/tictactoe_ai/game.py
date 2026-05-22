@@ -1,14 +1,21 @@
 """Core Tic-Tac-Toe game data."""
 
 from dataclasses import dataclass
+from typing import Literal
 
 EMPTY = 0
 X = 1
 O = -1
 
 Board = tuple[int, ...]
+GameResult = Literal["ongoing", "x_win", "o_win", "draw"]
 
 INITIAL_BOARD: Board = (EMPTY,) * 9
+
+RESULT_ONGOING: GameResult = "ongoing"
+RESULT_X_WIN: GameResult = "x_win"
+RESULT_O_WIN: GameResult = "o_win"
+RESULT_DRAW: GameResult = "draw"
 
 
 @dataclass(frozen=True)
@@ -116,3 +123,18 @@ def is_draw(board: Board) -> bool:
 def is_game_over(board: Board) -> bool:
     """Return whether the game has ended."""
     return winner(board) is not None or is_draw(board)
+
+
+def game_result(board: Board) -> GameResult:
+    """Return the current game result."""
+    winning_player = winner(board)
+    if winning_player == X:
+        return RESULT_X_WIN
+
+    if winning_player == O:
+        return RESULT_O_WIN
+
+    if is_draw(board):
+        return RESULT_DRAW
+
+    return RESULT_ONGOING
