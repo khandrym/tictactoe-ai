@@ -23,3 +23,13 @@ WIN_LINES: tuple[tuple[int, int, int], ...] = (
 def legal_moves(board: Board) -> tuple[int, ...]:
     """Return indexes of empty cells."""
     return tuple(index for index, cell in enumerate(board) if cell == EMPTY)
+
+
+def winner(board: Board) -> int | None:
+    """Return the winning player, if any."""
+    for first, second, third in WIN_LINES:
+        player = board[first]
+        if player != EMPTY and player == board[second] == board[third]:
+            return player
+
+    return None
