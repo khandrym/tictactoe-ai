@@ -18,3 +18,8 @@ WIN_LINES: tuple[tuple[int, int, int], ...] = (
     (0, 4, 8),
     (2, 4, 6),
 )
+
+
+def legal_moves(board: Board) -> tuple[int, ...]:
+    """Return indexes of empty cells."""
+    return tuple(index for index, cell in enumerate(board) if cell == EMPTY)
