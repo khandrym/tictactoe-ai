@@ -8,6 +8,7 @@ from tictactoe_ai.game import (
     is_game_over,
     legal_moves,
     make_move,
+    next_player,
     winner,
 )
 
@@ -93,6 +94,19 @@ def test_make_move_rejects_invalid_player() -> None:
 
     with pytest.raises(ValueError, match="X or O"):
         make_move(board, 4, EMPTY)
+
+
+def test_next_player_returns_o_after_x() -> None:
+    assert next_player(X) == O
+
+
+def test_next_player_returns_x_after_o() -> None:
+    assert next_player(O) == X
+
+
+def test_next_player_rejects_invalid_player() -> None:
+    with pytest.raises(ValueError, match="X or O"):
+        next_player(EMPTY)
 
 
 def test_winner_returns_x_for_completed_row() -> None:

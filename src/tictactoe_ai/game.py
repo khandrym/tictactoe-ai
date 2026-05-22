@@ -41,6 +41,17 @@ def make_move(board: Board, move: int, player: int) -> Board:
     return tuple(updated)
 
 
+def next_player(player: int) -> int:
+    """Return the player who moves after the given player."""
+    if player == X:
+        return O
+
+    if player == O:
+        return X
+
+    raise ValueError("player must be X or O")
+
+
 def winner(board: Board) -> int | None:
     """Return the winning player, if any."""
     for first, second, third in WIN_LINES:
