@@ -2,6 +2,7 @@ import pytest
 
 from tictactoe_ai.game import (
     EMPTY,
+    INITIAL_BOARD,
     O,
     X,
     is_draw,
@@ -10,6 +11,7 @@ from tictactoe_ai.game import (
     make_move,
     next_player,
     render_board,
+    reset_game,
     winner,
 )
 
@@ -50,6 +52,13 @@ def test_legal_moves_returns_empty_tuple_for_full_board() -> None:
     )
 
     assert legal_moves(board) == ()
+
+
+def test_reset_game_returns_initial_state() -> None:
+    state = reset_game()
+
+    assert state.board == INITIAL_BOARD
+    assert state.current_player == X
 
 
 def test_make_move_returns_board_with_player_mark() -> None:

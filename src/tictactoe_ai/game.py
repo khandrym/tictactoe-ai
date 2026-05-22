@@ -1,5 +1,7 @@
 """Core Tic-Tac-Toe game data."""
 
+from dataclasses import dataclass
+
 EMPTY = 0
 X = 1
 O = -1
@@ -7,6 +9,12 @@ O = -1
 Board = tuple[int, ...]
 
 INITIAL_BOARD: Board = (EMPTY,) * 9
+
+
+@dataclass(frozen=True)
+class GameState:
+    board: Board = INITIAL_BOARD
+    current_player: int = X
 
 CELL_SYMBOLS = {
     EMPTY: ".",
@@ -29,6 +37,11 @@ WIN_LINES: tuple[tuple[int, int, int], ...] = (
 def legal_moves(board: Board) -> tuple[int, ...]:
     """Return indexes of empty cells."""
     return tuple(index for index, cell in enumerate(board) if cell == EMPTY)
+
+
+def reset_game() -> GameState:
+    """Return a fresh initial game state."""
+    return GameState()
 
 
 def make_move(board: Board, move: int, player: int) -> Board:
