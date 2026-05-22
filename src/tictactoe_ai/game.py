@@ -25,6 +25,22 @@ def legal_moves(board: Board) -> tuple[int, ...]:
     return tuple(index for index, cell in enumerate(board) if cell == EMPTY)
 
 
+def make_move(board: Board, move: int, player: int) -> Board:
+    """Return a new board after placing the player's mark."""
+    if player not in (X, O):
+        raise ValueError("player must be X or O")
+
+    if move < 0 or move >= len(board):
+        raise ValueError("move must be a board index")
+
+    if board[move] != EMPTY:
+        raise ValueError("move must target an empty cell")
+
+    updated = list(board)
+    updated[move] = player
+    return tuple(updated)
+
+
 def winner(board: Board) -> int | None:
     """Return the winning player, if any."""
     for first, second, third in WIN_LINES:
