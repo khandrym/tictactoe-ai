@@ -1,6 +1,6 @@
 import pytest
 
-from tictactoe_ai.game import RESULT_X_WIN, O, X
+from tictactoe_ai.game import EMPTY, RESULT_ONGOING, RESULT_X_WIN, O, X
 from tictactoe_ai.self_play import run_self_play_episode, run_self_play_episodes
 
 
@@ -10,6 +10,34 @@ def test_run_self_play_episode_plays_until_game_over() -> None:
     assert episode.result == RESULT_X_WIN
     assert len(episode.turns) == 7
     assert episode.final_state.current_player == X
+
+
+def test_run_self_play_episode_records_turn_transitions() -> None:
+    episode = run_self_play_episode(lambda _state, moves: moves[0])
+    first_turn = episode.turns[0]
+
+    assert first_turn.state.board == (EMPTY,) * 9
+    assert first_turn.move == 0
+    assert first_turn.next_state.board == (
+        X,
+        EMPTY,
+        EMPTY,
+        EMPTY,
+        EMPTY,
+        EMPTY,
+        EMPTY,
+        EMPTY,
+        EMPTY,
+    )
+    assert first_turn.result == RESULT_ONGOING
+
+
+def test_run_self_play_episode_records_terminal_transition() -> None:
+    episode = run_self_play_episode(lambda _state, moves: moves[0])
+    last_turn = episode.turns[-1]
+
+    assert last_turn.result == RESULT_X_WIN
+    assert last_turn.next_state == episode.final_state
 
 
 def test_run_self_play_episode_uses_same_selector_for_both_players() -> None:

@@ -13,6 +13,8 @@ MoveSelector = Callable[[GameState, tuple[int, ...]], int]
 class SelfPlayTurn:
     state: GameState
     move: int
+    next_state: GameState
+    result: GameResult
 
 
 @dataclass(frozen=True)
@@ -30,8 +32,15 @@ def run_self_play_episode(select_move: MoveSelector) -> SelfPlayEpisode:
     while not env.done():
         state = env.state
         move = select_move(state, env.legal_moves())
-        env.step(move)
-        turns.append(SelfPlayTurn(state=state, move=move))
+        next_state, result = env.step(move)
+        turns.append(
+            SelfPlayTurn(
+                state=state,
+                move=move,
+                next_state=next_state,
+                result=result,
+            )
+        )
 
     return SelfPlayEpisode(
         turns=tuple(turns),
