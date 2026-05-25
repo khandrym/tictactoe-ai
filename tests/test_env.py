@@ -63,6 +63,17 @@ def test_env_step_returns_winning_result() -> None:
     assert env.done()
 
 
+def test_env_legal_moves_returns_empty_tuple_after_game_over() -> None:
+    env = TicTacToeEnv()
+    env.step(0)
+    env.step(3)
+    env.step(1)
+    env.step(4)
+    env.step(2)
+
+    assert env.legal_moves() == ()
+
+
 def test_env_render_returns_current_board() -> None:
     env = TicTacToeEnv()
     env.step(4)

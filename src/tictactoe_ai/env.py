@@ -21,6 +21,9 @@ class TicTacToeEnv:
         return self.state
 
     def legal_moves(self) -> tuple[int, ...]:
+        if self.done():
+            return ()
+
         return legal_moves(self.state.board)
 
     def step(self, move: int) -> tuple[GameState, GameResult]:
