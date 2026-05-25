@@ -3,6 +3,7 @@
 from tictactoe_ai.game import (
     GameResult,
     GameState,
+    RESULT_ONGOING,
     game_result,
     legal_moves,
     render_board,
@@ -31,3 +32,6 @@ class TicTacToeEnv:
 
     def result(self) -> GameResult:
         return game_result(self.state.board)
+
+    def done(self) -> bool:
+        return self.result() != RESULT_ONGOING

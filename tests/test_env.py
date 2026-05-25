@@ -8,6 +8,7 @@ def test_env_starts_with_initial_state() -> None:
     assert env.state.board == INITIAL_BOARD
     assert env.state.current_player == X
     assert env.result() == RESULT_ONGOING
+    assert not env.done()
 
 
 def test_env_reset_restores_initial_state() -> None:
@@ -59,6 +60,7 @@ def test_env_step_returns_winning_result() -> None:
 
     assert result == RESULT_X_WIN
     assert state.current_player == X
+    assert env.done()
 
 
 def test_env_render_returns_current_board() -> None:
